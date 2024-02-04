@@ -2,9 +2,10 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class CampoMinato {
-    int[][] campo;
+    private int[][] campo;
 
-    public CampoMinato(int righe, int colonne) {
+    public CampoMinato(int righe, int colonne) throws Exception {
+        if(righe <= 0 || colonne <= 0) throw new Exception("Parametri invalidi");
         this.campo = new int[righe][colonne];
     }
 
@@ -25,7 +26,7 @@ public class CampoMinato {
         Random r = new Random();
 
         for(int i = 0; i < nMine; ++i) {
-            int cella = r.nextInt(0, celleDisponibili.size());
+            int cella = r.nextInt(celleDisponibili.size());
             celleDisponibili.remove(cella);
 
             int riga = cella / this.campo[0].length;
@@ -35,5 +36,18 @@ public class CampoMinato {
         }
     }
 
+    public String stampaCampo() {
+        String ret = "";
 
+        for(int[] riga : this.campo) {
+            for(int cella : riga) {
+                ret += (
+                        cella <= -1? "■" :
+                                (cella == 0? "□" : cella)
+                ) + "\t";
+            }
+        }
+
+        return ret;
+    }
 }

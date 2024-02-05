@@ -6,12 +6,15 @@ import java.util.Random;
 public class CampoMinato {
     private int[][] campo;
     private boolean gameOver;
+    private int mineRimanenti;
+    private int bandierePiazzate;
 
     public CampoMinato(int righe, int colonne, int nMine) throws Exception {
         if(righe <= 0 || colonne <= 0) throw new Exception("Parametri invalidi");
         this.campo = new int[righe][colonne];
 
         inizializzaCampo(nMine);
+        mineRimanenti = nMine;
     }
 
     public void inizializzaCampo(int nMine) throws Exception {
@@ -150,7 +153,10 @@ public class CampoMinato {
     public void posizionaBandiera(int riga, int colonna) {
         try {
             if(this.campo[riga][colonna] < 0) {
-                this.campo[riga][colonna] -= 2;
+                if(mineRimanenti > 0) {
+                    this.campo[riga][colonna] -= 2;
+                }
+
             }
         }
         catch(Exception ignored) {}

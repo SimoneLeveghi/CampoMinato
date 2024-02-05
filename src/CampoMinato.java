@@ -51,7 +51,7 @@ public class CampoMinato {
 
         for(int[] riga : this.campo) {
             for(int cella : riga) {
-                if(cella == -2) {
+                if(cella == -2 || cella == -1) {
                     ret += "■";
                 }
                 else if(cella == 0) {
@@ -105,33 +105,38 @@ public class CampoMinato {
         ArrayList<Integer> visited = new ArrayList<Integer>();
         LinkedList<Integer> ll = new LinkedList<Integer>();
         ll.add(riga * this.campo[0].length + colonna);
+        System.out.println("Cella: " + ll.peek());
         while(!ll.isEmpty()) {
             int cella = ll.pop();
             int rigaC = cella / this.campo[0].length;
             int colonnaC = cella % this.campo[0].length;
 
-            this.campo[rigaC][colonnaC] = mineAdiacenti(rigaC, colonnaC);
-            visited.add(cella);
+            try {
+                visited.add(cella);
+                if((this.campo[rigaC][colonnaC] = mineAdiacenti(rigaC, colonnaC)) == 0) {
+                    int cellaSup;
+                    if (!visited.contains(cellaSup = (rigaC - 1) * this.campo[0].length + colonnaC)) {
+                        ll.add(cellaSup);
+                    }
 
-            int cellaSup;
-            if(this.campo[rigaC - 1][colonnaC] == 0 && !visited.contains(cellaSup = (rigaC - 1) * this.campo[0].length + colonnaC)) {
-                ll.add(cellaSup);
-            }
+                    int cellaInf;
+                    if (!visited.contains(cellaInf = (rigaC + 1) * this.campo[0].length + colonnaC)) {
+                        ll.add(cellaInf);
+                    }
 
-            int cellaInf;
-            if(this.campo[rigaC + 1][colonnaC] == 0 && !visited.contains(cellaInf = (rigaC + 1) * this.campo[0].length + colonnaC)) {
-                ll.add(cellaInf);
-            }
+                    int cellaDx;
+                    if (!visited.contains(cellaDx = (rigaC) * this.campo[0].length + colonnaC - 1)) {
+                        ll.add(cellaDx);
+                    }
 
-            int cellaDx;
-            if(this.campo[rigaC][colonnaC - 1] == 0 && !visited.contains(cellaDx = (rigaC) * this.campo[0].length + colonnaC - 1)) {
-                ll.add(cellaDx);
+                    int cellaSx;
+                    if (!visited.contains(cellaSx = (rigaC) * this.campo[0].length + colonnaC + 1)) {
+                        ll.add(cellaSx);
+                    }
+                }
             }
+            catch(Exception ignored) {}
 
-            int cellaSx;
-            if(this.campo[rigaC][colonnaC + 1] == 0 && !visited.contains(cellaSx = (rigaC) * this.campo[0].length + colonnaC + 1)) {
-                ll.add(cellaSx);
-            }
         }
     }
 

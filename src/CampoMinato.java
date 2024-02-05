@@ -47,10 +47,17 @@ public class CampoMinato {
     }
 
     public String stampaCampo() {
-        String ret = "";
+        String ret = " \t";
 
-        for(int[] riga : this.campo) {
-            for(int cella : riga) {
+        for(int i = 0; i < this.campo[0].length; ++i) {
+            ret += i + "\t";
+        }
+        ret += "\n";
+
+        for(int i = 0; i < this.campo.length; ++i) {
+            ret += i + "\t";
+            for(int j = 0; j < this.campo[0].length; ++j) {
+                int cella = this.campo[i][j];
                 if(cella == -2 || cella == -1) {
                     ret += "■";
                 }
@@ -105,7 +112,7 @@ public class CampoMinato {
         ArrayList<Integer> visited = new ArrayList<Integer>();
         LinkedList<Integer> ll = new LinkedList<Integer>();
         ll.add(riga * this.campo[0].length + colonna);
-        System.out.println("Cella: " + ll.peek());
+
         while(!ll.isEmpty()) {
             int cella = ll.pop();
             int rigaC = cella / this.campo[0].length;
@@ -138,6 +145,15 @@ public class CampoMinato {
             catch(Exception ignored) {}
 
         }
+    }
+
+    public void posizionaBandiera(int riga, int colonna) {
+        try {
+            if(this.campo[riga][colonna] < 0) {
+                this.campo[riga][colonna] -= 2;
+            }
+        }
+        catch(Exception ignored) {}
     }
 
     public boolean isGameOver() {
